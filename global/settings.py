@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     "bloom_ai",
     "users",
     "question",
-    "match"
+    "match",
 ]
 
 MIDDLEWARE = [

@@ -10,7 +10,7 @@ ENV = os.environ.get("DEV")
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = False
-if ENV is "dev":
+if ENV == "dev":
     DEBUG = True
 
 ALLOWED_HOSTS = ["*"]

@@ -3,9 +3,6 @@ import os
 gpt_key: str = os.getenv("GPT_KEY")
 kakao_rest_api_key: str = os.getenv("KAKAO_REST_KEY")
 
-if gpt_key is None:
-    pass
-
 
 class AppEnvironment:
     @staticmethod

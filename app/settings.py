@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "app",
     "drf_yasg",
     "rest_framework",
     "bloom_ai",
@@ -40,7 +41,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "global.urls"
+ROOT_URLCONF = "app.urls"
 
 TEMPLATES = [
     {
@@ -58,7 +59,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "global.wsgi.application"
+WSGI_APPLICATION = "app.wsgi.application"
 
 
 DATABASES = {

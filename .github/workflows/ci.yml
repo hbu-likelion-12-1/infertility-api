@@ -28,6 +28,10 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/webloom:latest
 
+    - name: test ls
+      run: |
+        ls -al
+
     - name: Deploy Django
       uses: appleboy/ssh-action@v1.0.3
       with:

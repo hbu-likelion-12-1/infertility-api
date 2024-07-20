@@ -7,6 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 gpt_key: str = os.environ.get("GPT_KEY")
+secret_key: str = os.environ.get("SECRET_KEY")
 kakao_rest_api_key: str = os.environ.get("KAKAO_REST_KEY")
 app_env: str = os.environ.get("ENV")
 
@@ -47,6 +48,13 @@ class AppEnvironment:
         if not gpt_key:
             raise EnvironmentError("GPT_KEY environment variable not set")
         return gpt_key
+    
+    @staticmethod
+    def secret_key():
+        if not secret_key:
+            raise EnvironmentError("SECRET_KEY environment variable not set")
+        return secret_key
+
 
     @staticmethod
     def kakao_rest_api():

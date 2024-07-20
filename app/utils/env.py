@@ -1,15 +1,20 @@
 import os
 from typing import Dict
+import environ
+from pathlib import Path
 
-gpt_key: str = os.getenv("GPT_KEY")
-kakao_rest_api_key: str = os.getenv("KAKAO_REST_KEY")
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+
+gpt_key: str = os.environ.get("GPT_KEY")
+kakao_rest_api_key: str = os.environ.get("KAKAO_REST_KEY")
 
 database_details: Dict[str, str] = {
-    "name": os.getenv("DB_NAME"),
-    "ip": os.getenv("DB_IP"),
-    "port": os.getenv("DB_PORT"),
-    "user": os.getenv("DB_USER"),
-    "password": os.getenv("DB_PASSWORD"),
+    "name": os.environ.get("DB_NAME"),
+    "ip": os.environ.get("DB_IP"),
+    "port": os.environ.get("DB_PORT"),
+    "user": os.environ.get("DB_USER"),
+    "password": os.environ.get("DB_PASSWORD"),
 }
 
 

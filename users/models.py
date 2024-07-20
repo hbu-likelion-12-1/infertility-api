@@ -51,3 +51,8 @@ class UserInfertility(models.Model):
     user = models.OneToOneField(
         User, related_name="user_infertility", on_delete=models.CASCADE
     )
+
+
+class OAuthIdentifier(models.Model):
+    id = models.IntegerField(primary_key=True)
+    identifier = models.CharField()

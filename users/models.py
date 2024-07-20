@@ -19,6 +19,20 @@ class User(AbstractBaseUser, PermissionsMixin):
     town = models.CharField(max_length=20)
     birthday = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
+    depression_test = models.OneToOneField(
+        "UserDepressionTest",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="user",
+    )
+    infertility = models.OneToOneField(
+        "UserInfertility",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="user",
+    )
 
     groups = models.ManyToManyField(Group, related_name="custom_user_groups")
     user_permissions = models.ManyToManyField(
@@ -33,7 +47,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     @staticmethod
     def create(data):
-        user = User(
+        user: User = User(
             username=data["username"],
             sex=data["sex"],
             region=data["region"],
@@ -42,15 +56,31 @@ class User(AbstractBaseUser, PermissionsMixin):
             birthday=data["birthday"],
             kakao_id=data["kakao_id"],
         ).save()
+
+        depression_test = UserDepressionTest(
+            json=data["depression_test"], user=user
+        ).save()
+
+        user_infer = UserInfertility(
+            period=data["period"],
+            care_status=data["care_status"],
+            cause=data["cause"],
+            cost=data["cost"],
+            workplace_comprehension=data["workplace_comprehension"],
+            communication=data["communication"],
+            user=user,
+        ).save()
+
+        user.infertility = user_infer
+        user.depression_test = depression_test
+        user.save()
+
         return user
 
 
 class UserDepressionTest(models.Model):
     id = models.IntegerField(primary_key=True)
     json = models.JSONField()
-    user = models.OneToOneField(
-        User, related_name="user_depression_test", on_delete=models.CASCADE
-    )
 
 
 class UserInfertility(models.Model):
@@ -61,9 +91,6 @@ class UserInfertility(models.Model):
     cost = TextEnumField(enum=InferCost)
     workplace_comprehension = TextEnumField(enum=WorkplaceComprehension)
     communication = TextEnumField(enum=InferCommunication)
-    user = models.OneToOneField(
-        User, related_name="user_infertility", on_delete=models.CASCADE
-    )
 
 
 class OAuthIdentifier(models.Model):

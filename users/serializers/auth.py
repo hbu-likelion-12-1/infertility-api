@@ -10,6 +10,7 @@ class AuthSerializer:
         region = serializers.CharField(max_length=20)
         city = serializers.CharField(max_length=20)
         town = serializers.CharField(max_length=20)
+        period = serializers.CharField(max_length=30)
         care_status = serializers.CharField(max_length=30)
         cause = serializers.CharField(max_length=30)
         cost = serializers.CharField(max_length=30)

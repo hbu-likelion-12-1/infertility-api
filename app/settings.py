@@ -41,6 +41,15 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "app.urls"
 
+REST_FRAMEWORK = {
+    "EXCEPTION_HANDLER": "app.error.handler",
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 100,
+}
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",

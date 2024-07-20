@@ -1,10 +1,8 @@
 from pathlib import Path
 import os
+from utils import AppEnvironment
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 ENV = os.environ.get("DEV")
 SECRET_KEY = os.environ.get("SECRET_KEY")
@@ -61,14 +59,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "app.wsgi.application"
 
-
+DB_DETAILS = AppEnvironment.database_details()
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": DB_DETAILS["name"],
+        "USER": DB_DETAILS["user"],
+        "PASSWORD": DB_DETAILS["password"],
+        "HOST": DB_DETAILS["ip"],
+        "PORT": DB_DETAILS["port"],
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {

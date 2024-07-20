@@ -9,6 +9,13 @@ class AuthSerializer:
         region = serializers.CharField(max_length=20)
         city = serializers.CharField(max_length=20)
         town = serializers.CharField(max_length=20)
+        care_status = serializers.CharField(max_length=30)
+        cause = serializers.CharField(max_length=30)
+        cost = serializers.CharField(max_length=30)
+        workplace_comprehension = serializers.CharField(max_length=30)
+        communication = serializers.CharField(max_length=30)
+        depression_test = serializers.JSONField()
+        token = serializers.CharField()
 
         def valid(self):
             self.is_valid(raise_exception=True)

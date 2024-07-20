@@ -6,6 +6,7 @@ from app.utils import AppEnvironment
 from rest_framework.permissions import AllowAny
 from users.kakao import KakaoProvider
 from .login import LoginService
+from app.error import AppError
 
 
 class SignupAPI(APIView):
@@ -16,9 +17,15 @@ class SignupAPI(APIView):
     )
     def post(self, req: Request):
         signup_handler = UserSerializer.Auth.Signup(data=req.data)
-        signup_handler.is_valid(raise_exception=True)
 
-        return Response()
+        exists = UserSerializer.User.exists_kakao(
+            kakao_id=req.data["kakao_id"])
+        if exists is True:
+            raise AppError(409, "이미 존재하는 회원입니다.")
+
+        signup_handler.is_valid(raise_exception=True)
+        signup_handler.signup(signup_handler.validated_data)
+        return Response(status=201)
 
 
 class KakaoRedirectAPI(APIView):

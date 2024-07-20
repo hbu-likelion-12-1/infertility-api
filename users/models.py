@@ -31,6 +31,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.username
 
+    @staticmethod
+    def create(data):
+        user = User(
+            username=data["username"],
+            sex=data["sex"],
+            region=data["region"],
+            city=data["city"],
+            town=data["town"],
+            birthday=data["birthday"],
+            kakao_id=data["kakao_id"],
+        ).save()
+        return user
+
 
 class UserDepressionTest(models.Model):
     id = models.IntegerField(primary_key=True)

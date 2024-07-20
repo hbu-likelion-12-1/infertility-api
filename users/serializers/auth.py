@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from users.models import User
 
 
 class AuthSerializer:
@@ -15,10 +16,10 @@ class AuthSerializer:
         workplace_comprehension = serializers.CharField(max_length=30)
         communication = serializers.CharField(max_length=30)
         depression_test = serializers.JSONField()
-        token = serializers.CharField()
+        kakao_id = serializers.CharField()
 
-        def create(self, validated_data):
-            pass
+        def signup(self, validated_data):
+            return User.create(validated_data)
 
     class Login:
         pass

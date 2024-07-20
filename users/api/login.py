@@ -8,9 +8,13 @@ class LoginService:
     def login(kakao_id: str):
         user: User = User.objects.filter(kakao_id=kakao_id)
         if not user:
-            return None
+            return {"user": None, "access_token": None, "kakao_id": kakao_id}
         refresh = RefreshToken.for_user(user)
         user_details = UserSerializer.User.Model(user).data
         access_token = str(refresh.access_token)
 
-        return {"user": user_details, "access_token": access_token}
+        return {
+            "user": user_details,
+            "access_token": access_token,
+            "kakao_id": kakao_id,
+        }

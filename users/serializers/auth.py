@@ -17,9 +17,8 @@ class AuthSerializer:
         depression_test = serializers.JSONField()
         token = serializers.CharField()
 
-        def get_valid(self):
-            self.is_valid(raise_exception=True)
-            return self.validated_data
+        def create(self, validated_data):
+            pass
 
     class Login:
         pass

@@ -5,9 +5,9 @@ from ..serializers import UserSerializer
 from app.utils import AppEnvironment
 from rest_framework.permissions import AllowAny
 from users.kakao import KakaoProvider
+from .login import LoginService
 
 
-# 회원가입 API
 class SignupAPI(APIView):
     permission_classes = [AllowAny]
 
@@ -48,4 +48,5 @@ class KakaoLoginAPI(APIView):
         kakao = KakaoProvider(auth_code=auth_code)
         kakao.get_token()
         kakao_user_id = kakao.login()
-        return Response(status=200)
+        login_details = LoginService.login(kakao_id=kakao_user_id)
+        return Response(data=login_details, status=200)

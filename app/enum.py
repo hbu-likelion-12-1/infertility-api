@@ -3,10 +3,10 @@ from enum import Enum
 
 # 난임 진단 시기
 class InferPeriod(Enum):
-    LESS_THAN_6 = "LESS_THAN_6"
-    BETWEEN_6_12 = "BETWEEN_6_12"
-    BETWEEN_12_24 = "BETWEEN_12_24"
-    MORE_2 = "MORE_2"
+    LESS_THAN_6_MONTH = "LESS_THAN_6_MONTH"
+    BETWEEN_6_MONTH_AND_1_YEAR = "BETWEEN_6_MONTH_AND_1_YEAR"
+    BETWEEN_1_YEAR_AND_2_YEAR = "BETWEEN_1_YEAR_AND_2_YEAR"
+    TWO_YEARS_OR_MORE = "TWO_YEARS_OR_MORE"
 
 
 # 난임 치료 상황

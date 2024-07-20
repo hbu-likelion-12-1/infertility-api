@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 COPY . .
 
 EXPOSE 8000
-CMD ["gunicorn", "--bind", "0.0.0.0:8008", "stock.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8008", "app.wsgi:application"]

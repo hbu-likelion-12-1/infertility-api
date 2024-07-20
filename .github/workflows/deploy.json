@@ -1,0 +1,9 @@
+{
+  "content": "백엔드 애플리케이션의 최신 내용이 배포되었습니다.",
+  "embeds": [
+    {
+      "title": "Django API 서버 배포 완료",
+      "description": "${{ github.event.head_commit.message }}"
+    }
+  ]
+}

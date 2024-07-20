@@ -22,7 +22,7 @@ def verify_code(request):
         try:
             person_B = User.objects.get(id=person_B_id)
             invite_code = InviteCode.objects.get(code=input_code)
-            # Match 모델에 매칭 정보 저장
+            
             if invite_code.creator and person_B:
                 if person_B.gender == 'female':
                     match = Match(female=person_B, male=invite_code.creator)

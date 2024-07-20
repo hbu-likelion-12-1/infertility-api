@@ -8,6 +8,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "username"
 
     id = models.IntegerField(primary_key=True)
+    kakao_id = models.CharField()
     username = models.CharField(max_length=10)
     sex = models.CharField(max_length=1)
     region = models.CharField(max_length=20)

@@ -1,8 +1,10 @@
 version: '3.8'
 
 services:
-  web:
-    build: .
+  webloom-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8008:8008"
     environment:

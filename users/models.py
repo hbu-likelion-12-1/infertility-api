@@ -10,7 +10,7 @@ from app.enum import *
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    USERNAME_FIELD = "username"
+    USERNAME_FIELD = "id"
 
     id = models.AutoField(primary_key=True)
     kakao_id = models.CharField(max_length=50)

@@ -1,3 +1,4 @@
+from datetime import timedelta
 from pathlib import Path
 import os
 from .utils import AppEnvironment
@@ -20,8 +21,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework_simplejwt",
     "app",
     "drf_yasg",
+    "allauth.socialaccount.providers.kakao",
     "rest_framework",
     "bloom_ai",
     "users",
@@ -46,6 +49,9 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.AllowAny",
     ],
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 100,
 }
@@ -95,6 +101,30 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {"type": "apiKey", "in": "header", "name": "Authorization"}
+    }
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=7),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+}
+
+CORS_ALLOWED_ORIGINS = [
+    "http://galaxy4276.asuscomm.com:3000",
+    "http://localhost:3000",
+    "http://localhost:8008",
+]
+
+AUTH_USER_MODEL = "users.User"
 
 LANGUAGE_CODE = "ko-kr"
 TIME_ZONE = "Asia/Seoul"

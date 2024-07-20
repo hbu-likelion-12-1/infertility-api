@@ -6,7 +6,7 @@ from .utils import AppEnvironment
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 ENV = AppEnvironment.run_env()
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = AppEnvironment.secret_key()
 
 DEBUG = True
 if ENV != "dev":

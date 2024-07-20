@@ -1,7 +1,7 @@
 from django.urls import path
-from . import views
+from .api import *
+
 
 urlpatterns = [
-    path('generate/', views.generate_code, name='generate_code'),
-    path('verify/', views.verify_code, name='verify_code'),
+    path("code", InviteCodeAPI.as_view()),
 ]

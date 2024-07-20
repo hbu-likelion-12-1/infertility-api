@@ -8,6 +8,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 gpt_key: str = os.environ.get("GPT_KEY")
 kakao_rest_api_key: str = os.environ.get("KAKAO_REST_KEY")
+app_env: str = os.environ.get("ENV")
 
 database_details: Dict[str, str] = {
     "name": os.environ.get("DB_NAME"),
@@ -45,3 +46,9 @@ class AppEnvironment:
         if check_none_in_dict(database_details):
             raise EnvironmentError("DATABASE environment variable not set")
         return database_details
+
+    @staticmethod
+    def run_env():
+        if not app_env:
+            raise EnvironmentError("ENV environment variable not set")
+        return app_env

@@ -1,7 +1,12 @@
-from rest_framework.views import APIView, Request
+from rest_framework.views import APIView, Request, Response
+from drf_yasg.utils import swagger_auto_schema
+from ..serializers import UserSerializer
 
 
 # 회원가입 API
 class SignupAPI(APIView):
+    @swagger_auto_schema(operation_summary="회원가입 API")
     def post(self, req: Request):
-        pass
+        body = UserSerializer.Auth.Signup(data=req.data).valid()
+        print(f"body: {body}")
+        return Response()

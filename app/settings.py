@@ -5,14 +5,15 @@ from .utils import AppEnvironment
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ENV = os.environ.get("DEV")
+ENV = AppEnvironment.run_env()
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-DEBUG = False
-if ENV == "dev":
-    DEBUG = True
+DEBUG = True
+if ENV != "dev":
+    DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
+PORT = 8008
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -47,7 +48,7 @@ ROOT_URLCONF = "app.urls"
 REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "app.error.handler",
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.AllowAny",
+        "rest_framework.permissions.IsAuthenticated",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
@@ -102,9 +103,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 SWAGGER_SETTINGS = {
+    "USE_SESSION_AUTH": False,
     "SECURITY_DEFINITIONS": {
         "Bearer": {"type": "apiKey", "in": "header", "name": "Authorization"}
-    }
+    },
 }
 
 SIMPLE_JWT = {

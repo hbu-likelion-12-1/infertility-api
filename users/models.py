@@ -10,8 +10,6 @@ from app.enum import *
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    USERNAME_FIELD = "id"
-
     id = models.AutoField(primary_key=True)
     kakao_id = models.CharField(max_length=50)
     username = models.CharField(max_length=10)
@@ -27,6 +25,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         Permission, related_name="custom_user_permissions"
     )
 
+    USERNAME_FIELD = "id"
     REQUIRED_FIELDS = ["kakao_id", "sex", "region", "city", "town", "birthday"]
 
     def __str__(self):

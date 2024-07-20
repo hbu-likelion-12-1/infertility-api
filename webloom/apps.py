@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class WebloomConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'webloom'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "webloom"

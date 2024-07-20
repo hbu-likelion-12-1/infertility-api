@@ -41,3 +41,19 @@ class Match(models.Model):
         User, related_name="male", on_delete=models.SET_NULL, db_comment="남편", null=True
     )
     created_at = models.DateTimeField(auto_now_add=True, db_comment="매칭 체결일")
+
+    @staticmethod
+    def create(u1: User, u2: User):
+        match = Match()
+        if u1.sex == "F":
+            match.female = u1
+        elif u2.sex == "F":
+            match.female = u2
+
+        if u1.sex == "M":
+            match.male = u1
+        elif u2.sex == "M":
+            match.male = u2
+        match.save()
+
+        return match

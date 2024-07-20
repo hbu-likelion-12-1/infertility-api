@@ -27,7 +27,21 @@ def check_none_in_dict(d: dict) -> bool:
     return False
 
 
+def get_redirect_uri():
+    env = app_env
+    if env == "dev":
+        return "http://localhost:3000/kakao"
+    return "http://galaxy4276.asuscomm.com:3000/kakao"
+
+
+kakao_auth_url = "https://kauth.kakao.com/oauth/authorize"
+rest_key = kakao_rest_api_key
+kakao_get_code_url = f"{kakao_auth_url}?client_id={rest_key}&redirect_uri={get_redirect_uri()}&response_type=code"
+
+
 class AppEnvironment:
+    kakao_auth_url = kakao_get_code_url
+
     @staticmethod
     def gpt_key():
         if not gpt_key:

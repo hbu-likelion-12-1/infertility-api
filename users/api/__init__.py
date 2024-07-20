@@ -1,1 +1,1 @@
-from .auth import SignupAPI
+from .auth import SignupAPI, KakaoRedirectAPI

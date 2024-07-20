@@ -4,4 +4,5 @@ from .api import *
 
 urlpatterns = [
     path("auth/signup/", SignupAPI.as_view()),
+    path("auth/kakao/url/", KakaoRedirectAPI.as_view()),
 ]

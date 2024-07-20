@@ -35,6 +35,4 @@ class KakaoProvider:
         ).json()
 
         kakao_user_id = kakao_authorized["id"]
-        print(f"kakao_user_id: {kakao_user_id}")
-
         return kakao_user_id

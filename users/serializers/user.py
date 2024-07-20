@@ -7,6 +7,14 @@ class UserDetails:
         class Meta:
             model = User
 
+            exclude = [
+                "last_login",
+                "is_superuser",
+                "kakao_id",
+                "groups",
+                "user_permissions",
+            ]
+
     @staticmethod
     def exists_kakao(kakao_id: str):
         return User.objects.filter(kakao_id=kakao_id).exists()

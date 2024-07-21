@@ -21,7 +21,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/users/", include("users.urls")),
     path("api/match/", include("match.urls")),
-    path("api/question", include("question.urls")),
+    path("api/question/", include("question.urls")),
 ]
 
 env: str = AppEnvironment.run_env()

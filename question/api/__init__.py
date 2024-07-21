@@ -13,4 +13,4 @@ class QuestionAPI(APIView):
         question_provider = QuestionProvider(match=match)
         question = question_provider.create_question()
         json = QuestionSerializer.Model(question).data
-        return Response(data={"quesiton": json}, status=200)
+        return Response(data={"question": json}, status=200)

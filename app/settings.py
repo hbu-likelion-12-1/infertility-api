@@ -9,8 +9,8 @@ ENV = AppEnvironment.run_env()
 SECRET_KEY = AppEnvironment.secret_key()
 
 DEBUG = True
-if ENV != "dev":
-    DEBUG = False
+# if ENV != "dev":
+#     DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 PORT = 8008

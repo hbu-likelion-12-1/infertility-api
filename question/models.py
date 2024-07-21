@@ -24,7 +24,7 @@ class Question(models.Model):
 
 
 class QuestionAnswer(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     content = models.CharField(max_length=500, db_comment="마음 게시글 본문")
     emotion = TextEnumField(enum=Emotion)
     writer = models.ForeignKey(

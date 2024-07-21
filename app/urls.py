@@ -4,7 +4,8 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework.permissions import AllowAny
 from .utils import AppEnvironment
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 schema_view = get_schema_view(
@@ -20,7 +21,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/users/", include("users.urls")),
     path("api/match/", include("match.urls")),
-    staticfiles_urlpatterns(),
 ]
 
 env: str = AppEnvironment.run_env()
@@ -42,3 +42,7 @@ if env == "dev":
             name="schema-redoc",
         ),
     ]
+    urlpatterns += static(settings.STATIC_URL,
+                          document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

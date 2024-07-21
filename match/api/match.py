@@ -5,6 +5,7 @@ from users.models import User
 from match.handler import InviteCodeHandler, MatchHandler
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from question.provider import QuestionProvider
 
 
 class MatchAPI(APIView):
@@ -48,9 +49,12 @@ class MatchAPI(APIView):
 
         validate_create_match(creator, req.user)
         match = MatchHandler.create(creator, req.user)
+        first_question = QuestionProvider(match=match).create_question()
 
-        serialized_match = MatchSerializers.Model(match).data
-        return Response(data={"match": serialized_match}, status=201)
+        result_serializer = MatchSerializers.WithQuestion(
+            {"match": match, "question": first_question}
+        )
+        return Response(data=result_serializer.data, status=201)
 
 
 def validate_create_match(u1: User, u2: User):

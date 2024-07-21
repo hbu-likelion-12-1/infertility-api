@@ -4,7 +4,9 @@ import environ
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+ENV_PATH = os.path.join(BASE_DIR, ".env")
+print(f'ENV_PATH: {ENV_PATH}')
+environ.Env.read_env(ENV_PATH)
 
 gpt_key: str = os.environ.get("GPT_KEY")
 secret_key: str = os.environ.get("SECRET_KEY")

@@ -7,4 +7,5 @@ urlpatterns = [
     path("auth/kakao/url", KakaoRedirectAPI.as_view()),
     path("auth/login", KakaoLoginAPI.as_view()),
     path("", UserCrudAPI.as_view()),
+    path("test", TestUserAPI.as_view()),
 ]

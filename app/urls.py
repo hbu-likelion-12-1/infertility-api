@@ -21,6 +21,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/users/", include("users.urls")),
     path("api/match/", include("match.urls")),
+    path("api/question", include("question.urls")),
 ]
 
 env: str = AppEnvironment.run_env()
@@ -42,7 +43,3 @@ if env == "dev":
             name="schema-redoc",
         ),
     ]
-    urlpatterns += static(settings.STATIC_URL,
-                          document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)

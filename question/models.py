@@ -17,10 +17,7 @@ class Question(models.Model):
     @staticmethod
     def create(content: str, match: Match):
         question = Question(
-            content=content,
-            match=match,
-            female_audio_url=None,
-            male_audio_url=None
+            content=content, match=match, female_audio_url=None, male_audio_url=None
         )
         question.save()
         return question
@@ -36,4 +33,3 @@ class QuestionAnswer(models.Model):
     question = models.ForeignKey(
         Question, related_name="question_answers", on_delete=models.CASCADE
     )
-

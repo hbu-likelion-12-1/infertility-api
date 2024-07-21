@@ -10,10 +10,18 @@ from drf_yasg import openapi
 class MatchAPI(APIView):
     @swagger_auto_schema(operation_summary="매치 찾기 API")
     def get(self, req: Request):
-        match = MatchHandler.get_by_user(req.user)
+        user = req.user
+        
+        if not user:
+            return Response({"detail": "인증되지 않은 사용자입니다"}, status=401)
+
+        match = MatchHandler.get_by_user(user)
         if not match:
             return Response({"match": None}, status=200)
-        return Response(data={"match": match}, status=200)
+        
+        serialized_match = MatchSerializers.Model(match).data
+        return Response(data={"match": serialized_match}, status=200)
+
 
     @swagger_auto_schema(
         operation_summary="매치 체결 API",
@@ -21,17 +29,23 @@ class MatchAPI(APIView):
             openapi.Parameter(
                 "code",
                 openapi.IN_QUERY,
-                description="카카오 인증코드",
+                description="매칭 코드",
                 type=openapi.TYPE_STRING,
             )
         ],
     )
-    def post(self, req: Request):
-        query: str = req.GET.get("invite_code")
-        if not query:
-            raise AppError(400, "초대 코드가 존재하지 않습니다")
 
-        invite_code = InviteCodeHandler.find_by_code(code=query)
+    def post(self, req: Request):
+        query: str = req.GET.get("code")
+        
+        if not query:
+           raise AppError(400, "초대 코드가 존재하지 않습니다")
+
+        try:
+            invite_code = InviteCodeHandler.find_by_code(code=query)
+        except AppError as e:
+            return Response({"detail": str(e)}, status=400)
+
         creator: User = invite_code.creator
 
         if req.user.id == creator.id:

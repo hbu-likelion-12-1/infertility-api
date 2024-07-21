@@ -6,3 +6,6 @@ class MatchSerializers:
     class Model(serializers.ModelSerializer):
         class Meta:
             model = Match
+            fields = '__all__'
+
+

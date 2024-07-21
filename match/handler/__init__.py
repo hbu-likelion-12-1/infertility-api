@@ -17,9 +17,9 @@ class InviteCodeHandler:
 class MatchHandler:
     @staticmethod
     def exists(u1: User, u2: User):
-        return Match.objects.exists(
-            (Q(female=u1) or Q(female=u2)) or (Q(male=u1) or Q(male=u2))
-        )
+        return Match.objects.filter(
+            (Q(female=u1) & Q(male=u2)) | (Q(female=u2) & Q(male=u1))
+        ).exists()
 
     @staticmethod
     def create(u1: User, u2: User):
@@ -27,4 +27,13 @@ class MatchHandler:
 
     @staticmethod
     def get_by_user(user: User):
-        return Match.objects.get(Q(female=user) or Q(male=user))
+        try:
+            matches = Match.objects.filter(Q(female=user) | Q(male=user))
+
+            if matches.exists():
+                match = matches.first()
+                return match
+            else:
+                return None
+        except Exception as e:
+            return None

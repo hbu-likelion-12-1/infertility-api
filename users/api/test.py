@@ -26,6 +26,6 @@ class TestUserAPI(APIView):
         return Response(data=user_details, status=200)
 
     def get_kakao_id(self, type: str):
-        if type == "husband":
+        if type == "wife":
             return "99999999"
         return "99999998"

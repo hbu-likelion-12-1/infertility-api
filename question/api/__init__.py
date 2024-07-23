@@ -7,6 +7,7 @@ from question.serializers import QuestionSerializer, QuestionAnswerSerializer
 from users.models import User
 from question.handler import QuestionHandler
 from rest_framework import status
+from bloom_ai.feedback import BloomFeedbackProvider
 
 
 class QuestionAPI(APIView):
@@ -20,6 +21,8 @@ class QuestionAPI(APIView):
 
 
 class MindAnswerAPI(APIView):
+    feedback_provider = BloomFeedbackProvider()
+
     @swagger_auto_schema(
         operation_summary="질문에 대한 마음 작성 API",
         request_body=QuestionSerializer.CreateMindAnswer,
@@ -39,5 +42,7 @@ class MindAnswerAPI(APIView):
             emotion=body["emotion"],
         )
         result = question_serial.save()
+        self.feedback_provider.create_or_update(result)
         created_data = QuestionAnswerSerializer.Model(result).data
+
         return Response(data=created_data, status=status.HTTP_201_CREATED)

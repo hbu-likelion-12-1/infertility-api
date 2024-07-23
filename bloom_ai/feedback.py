@@ -37,12 +37,6 @@ Give me the result of this in Korean
     """
     bloom_ai = BloomAI()
 
-    def __init__(self, question: Question):
-        answers = list(QuestionAnswer.objects.filter(question=question))
-        [husband_answer, wife_answer] = divide_answers_by_sex(answers)
-        self.husband_answer: QuestionAnswer = husband_answer
-        self.wife_answer: QuestionAnswer = wife_answer
-
     def create_or_update(self, mind_answer: QuestionAnswer):
         question = mind_answer.question
         minds = list(QuestionAnswer.objects.filter(question=question))

@@ -6,13 +6,9 @@ from users.serializers import UserSerializer
 class LoginService:
     @staticmethod
     def login(kakao_id: str):
-        try:
-            user: User = User.objects.filter(kakao_id=kakao_id).get()
-        except User.DoesNotExist:
+        user: User = User.objects.filter(kakao_id=kakao_id).get()
+        if not user:
             return {"user": None, "access_token": None, "kakao_id": kakao_id}
-
-        # if not user:
-            # return {"user": None, "access_token": None, "kakao_id": kakao_id}
 
         refresh = RefreshToken.for_user(user)
         user_details = UserSerializer.User.Model(user).data

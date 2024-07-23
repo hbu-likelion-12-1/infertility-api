@@ -22,6 +22,7 @@ urlpatterns = [
     path("api/users/", include("users.urls")),
     path("api/match/", include("match.urls")),
     path("api/question/", include("question.urls")),
+    path("answers/", include("answer.urls")),
 ]
 
 env: str = AppEnvironment.run_env()

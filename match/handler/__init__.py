@@ -22,6 +22,10 @@ class MatchHandler:
         ).exists()
 
     @staticmethod
+    def find_by_id(id):
+        return Match.objects.get(id=id)
+
+    @staticmethod
     def create(u1: User, u2: User):
         return Match.create(u1, u2)
 

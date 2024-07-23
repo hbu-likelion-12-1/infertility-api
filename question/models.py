@@ -25,7 +25,7 @@ class Question(models.Model):
 
 class QuestionAnswer(models.Model):
     id = models.AutoField(primary_key=True)
-    content = models.CharField(max_length=500, db_comment="마음 게시글 본문")
+    content = models.CharField(max_length=200, db_comment="마음 게시글 본문")
     emotion = TextEnumField(enum=Emotion)
     writer = models.ForeignKey(
         User, related_name="user_question_answers", on_delete=models.SET_NULL, null=True

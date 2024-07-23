@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import User
 from .serializers import UserSerializer
 from rest_framework import viewsets, status
+
 # Create your views here.
 from django.conf import settings
 from allauth.socialaccount.providers.kakao import views as kakao_view
@@ -20,10 +21,11 @@ BASE_URL = "http://localhost:8000/"
 
 KAKAO_CALLBACK_URI = "http://localhost:8080/login"  # 프론트 로그인 URI 입력
 
+
 @api_view(["GET"])
 @permission_classes([AllowAny])
 def kakao_callback(request):
-    rest_api_key = 'f699b5db5810b9d5409a51940b2a135e'  # 카카오 앱키, 추후 시크릿 처리
+    rest_api_key = "f699b5db5810b9d5409a51940b2a135e"  # 카카오 앱키, 추후 시크릿 처리
     code = request.GET.get("code")
     print(code)
     redirect_uri = KAKAO_CALLBACK_URI
@@ -61,8 +63,6 @@ def kakao_callback(request):
     Signup or Signin Request
     """
 
-
-    
     try:
         user = User.objects.get(email=email)
         # 기존에 가입된 유저의 Provider가 kakao가 아니면 에러 발생, 맞으면 로그인
@@ -80,26 +80,35 @@ def kakao_callback(request):
             )
         # 기존에 kakao로 가입된 유저
         data = {"access_token": access_token, "code": code}
-        accept = requests.post(f"{BASE_URL}accounts/kakao/login/finish/", data=data)
+        accept = requests.post(
+            f"{BASE_URL}accounts/kakao/login/finish/", data=data)
         accept_status = accept.status_code
         if accept_status != 200:
             return JsonResponse({"err_msg": "failed to signin"}, status=accept_status)
         accept_json = accept.json()
         # refresh_token을 headers 문자열에서 추출함
-        refresh_token = accept.headers['Set-Cookie']
-        refresh_token = refresh_token.replace('=',';').replace(',',';').split(';')
-        token_index = refresh_token.index(' refresh_token')
-        cookie_max_age = 3600 * 24 * 14 # 14 days
-        refresh_token = refresh_token[token_index+1]
+        refresh_token = accept.headers["Set-Cookie"]
+        refresh_token = refresh_token.replace(
+            "=", ";").replace(",", ";").split(";")
+        token_index = refresh_token.index(" refresh_token")
+        cookie_max_age = 3600 * 24 * 14  # 14 days
+        refresh_token = refresh_token[token_index + 1]
         accept_json.pop("user", None)
         response_cookie = JsonResponse(accept_json)
-        response_cookie.set_cookie('refresh_token', refresh_token, max_age=cookie_max_age, httponly=True, samesite='Lax')
+        response_cookie.set_cookie(
+            "refresh_token",
+            refresh_token,
+            max_age=cookie_max_age,
+            httponly=True,
+            samesite="Lax",
+        )
         return response_cookie
-    
+
     except User.DoesNotExist:
         # 기존에 가입된 유저가 없으면 새로 가입
         data = {"access_token": access_token, "code": code}
-        accept = requests.post(f"{BASE_URL}accounts/kakao/login/finish/", data=data)
+        accept = requests.post(
+            f"{BASE_URL}accounts/kakao/login/finish/", data=data)
         accept_status = accept.status_code
         if accept_status != 200:
             return JsonResponse({"err_msg": "failed to signup"}, status=accept_status)
@@ -107,18 +116,25 @@ def kakao_callback(request):
 
         accept_json = accept.json()
         # refresh_token을 headers 문자열에서 추출함
-        refresh_token = accept.headers['Set-Cookie']
-        refresh_token = refresh_token.replace('=',';').replace(',',';').split(';')
-        token_index = refresh_token.index(' refresh_token')
-        refresh_token = refresh_token[token_index+1]
+        refresh_token = accept.headers["Set-Cookie"]
+        refresh_token = refresh_token.replace(
+            "=", ";").replace(",", ";").split(";")
+        token_index = refresh_token.index(" refresh_token")
+        refresh_token = refresh_token[token_index + 1]
 
         accept_json.pop("user", None)
         response_cookie = JsonResponse(accept_json)
-        response_cookie.set_cookie('refresh_token', refresh_token, max_age=cookie_max_age, httponly=True, samesite='Lax')
+        response_cookie.set_cookie(
+            "refresh_token",
+            refresh_token,
+            max_age=cookie_max_age,
+            httponly=True,
+            samesite="Lax",
+        )
         return response_cookie
 
 
 class KakaoLogin(SocialLoginView):
     adapter_class = kakao_view.KakaoOAuth2Adapter
     client_class = OAuth2Client
-    callback_url = "http://localhost:8080/login" 
+    callback_url = "http://localhost:8080/login"

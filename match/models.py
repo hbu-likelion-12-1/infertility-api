@@ -20,7 +20,6 @@ class InviteCode(models.Model):
     def generate_random_code(length=9):
         characters = string.ascii_letters + string.digits
 
-
         return "".join(random.choice(characters) for _ in range(length))
 
     def save(self, *args, **kwargs):

@@ -33,3 +33,12 @@ class QuestionHandler:
             "husband_emotions": husband,
             "wife_emotions": wife,
         }
+
+
+class MindHandler:
+    @staticmethod
+    def find_by_id(id: int):
+        question = QuestionAnswer.objects.filter(id=id).first()
+        if not question:
+            raise AppError(404, "데이터가 존재하지 않습니다")
+        return question

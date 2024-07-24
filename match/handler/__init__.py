@@ -30,14 +30,5 @@ class MatchHandler:
         return Match.create(u1, u2)
 
     @staticmethod
-    def get_by_user(user: User) -> Match | None:
-        try:
-            matches = Match.objects.filter(Q(female=user) | Q(male=user))
-
-            if matches.exists():
-                match = matches.first()
-                return match
-            else:
-                return None
-        except Exception as e:
-            return None
+    def find_by_user(user: User) -> Match | None:
+        return Match.objects.filter(Q(female=user) | Q(male=user)).first()

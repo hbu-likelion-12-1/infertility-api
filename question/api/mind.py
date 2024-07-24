@@ -1,6 +1,5 @@
 from rest_framework.views import APIView, Request, Response
 from users.models import User
-from question.handler import QuestionHandler
 from rest_framework import status
 from bloom_ai.feedback import BloomFeedbackProvider
 from question.serializers import QuestionSerializer, QuestionAnswerSerializer

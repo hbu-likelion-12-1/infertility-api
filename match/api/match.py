@@ -12,11 +12,7 @@ class MatchAPI(APIView):
     @swagger_auto_schema(operation_summary="매치 찾기 API")
     def get(self, req: Request):
         user = req.user
-
-        if not user:
-            return Response({"detail": "인증되지 않은 사용자입니다"}, status=401)
-
-        match = MatchHandler.get_by_user(user)
+        match = MatchHandler.find_by_user(user)
         if not match:
             return Response({"match": None}, status=200)
 

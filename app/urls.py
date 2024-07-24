@@ -20,7 +20,7 @@ urlpatterns = [
     path("api/users/", include("users.urls")),
     path("api/match/", include("match.urls")),
     path("api/question/", include("question.urls")),
-    path("api/bloom", include("bloom_ai.urls")),
+    path("api/bloom/", include("bloom_ai.urls")),
 ]
 
 env: str = AppEnvironment.run_env()

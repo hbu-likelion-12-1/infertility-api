@@ -50,4 +50,7 @@ class MindHandler:
 
     @staticmethod
     def first_by_user(user: User) -> QuestionAnswer | None:
-        return QuestionAnswer.objects.filter(user=user).order_by("-created_at").first()
+        return (
+            QuestionAnswer.objects.filter(
+                writer=user).order_by("-created_at").first()
+        )

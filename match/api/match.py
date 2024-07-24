@@ -10,7 +10,9 @@ from question.handler import QuestionHandler
 
 
 class MatchAPI(APIView):
-    @swagger_auto_schema(operation_summary="매치 찾기 API")
+    @swagger_auto_schema(
+        operation_summary="매치 찾기 API", responses={"200": MatchSerializers.Integrated()}
+    )
     def get(self, req: Request):
         user = req.user
         match = MatchHandler.find_by_user(user)
@@ -21,7 +23,11 @@ class MatchAPI(APIView):
         question = QuestionHandler.get_by_match(match)
 
         data = MatchSerializers.Integrated(
-            match=match, husband=match.male, wife=match.female, question=question
+            instance=match,
+            match_id=match.id,
+            husband_instance=match.male,
+            wife_instance=match.female,
+            question_instance=question,
         ).data
         print(f"data: {data}")
         return Response(data=data, status=200)

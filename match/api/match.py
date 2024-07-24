@@ -32,15 +32,10 @@ class MatchAPI(APIView):
     )
     def post(self, req: Request):
         query: str = req.GET.get("code")
-
         if not query:
             raise AppError(400, "초대 코드가 존재하지 않습니다")
 
-        try:
-            invite_code = InviteCodeHandler.find_by_code(code=query)
-        except AppError as e:
-            return Response({"detail": str(e)}, status=400)
-
+        invite_code = InviteCodeHandler.find_by_code(code=query)
         creator: User = invite_code.creator
 
         validate_create_match(creator, req.user)

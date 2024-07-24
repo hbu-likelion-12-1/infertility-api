@@ -4,8 +4,6 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework.permissions import AllowAny
 from .utils import AppEnvironment
-from django.conf import settings
-from django.conf.urls.static import static
 
 
 schema_view = get_schema_view(
@@ -22,7 +20,7 @@ urlpatterns = [
     path("api/users/", include("users.urls")),
     path("api/match/", include("match.urls")),
     path("api/question/", include("question.urls")),
-    path("answers/", include("answer.urls")),
+    path("api/bloom", include("bloom_ai.urls")),
 ]
 
 env: str = AppEnvironment.run_env()

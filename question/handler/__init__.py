@@ -4,6 +4,7 @@ from match.models import Match
 from datetime import datetime, timedelta
 from django.utils import timezone
 from typing import List
+from users.models import User
 
 
 class QuestionHandler:
@@ -42,3 +43,7 @@ class MindHandler:
         if not question:
             raise AppError(404, "데이터가 존재하지 않습니다")
         return question
+
+    @staticmethod
+    def first_by_user(user: User) -> QuestionAnswer | None:
+        return QuestionAnswer.objects.filter(user=user).order_by("-created_at").first()

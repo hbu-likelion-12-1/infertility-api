@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from match.models import Match
 from question.serializers import QuestionSerializer
+from users.serializers import UserDetails
 
 
 class Model(serializers.ModelSerializer):
@@ -12,6 +13,37 @@ class Model(serializers.ModelSerializer):
 class MatchSerializers:
     class Model(Model):
         pass
+
+    class Integrated(serializers.ModelSerializer):
+        match = Model()
+        husband = serializers.SerializerMethodField()
+        wife = serializers.SerializerMethodField()
+        question = serializers.SerializerMethodField()
+
+        class Meta:
+            model = Match
+            fields = ["match", "husband", "wife", "question"]
+
+        def __init__(self, *args, **kwargs):
+            self.husband_instance = kwargs.pop("husband", None)
+            self.wife_instance = kwargs.pop("wife", None)
+            self.question_instance = kwargs.pop("question", None)
+            super().__init__(*args, **kwargs)
+
+        def get_husband(self, obj):
+            if not self.husband_instance:
+                return None
+            return UserDetails.UserWithQuestionId(self.husband_instance).data
+
+        def get_wife(self, obj):
+            if not self.wife_instance:
+                return None
+            return UserDetails.UserWithQuestionId(self.wife_instance).data
+
+        def get_question(self, obj):
+            if not self.question_instance:
+                return None
+            return QuestionSerializer.Model(self.question_instance)
 
     class WithQuestion(serializers.ModelSerializer):
         match = Model()

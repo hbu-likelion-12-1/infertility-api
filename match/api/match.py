@@ -6,6 +6,7 @@ from match.handler import InviteCodeHandler, MatchHandler
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from question.provider import QuestionProvider
+from question.handler import QuestionHandler
 
 
 class MatchAPI(APIView):
@@ -13,11 +14,17 @@ class MatchAPI(APIView):
     def get(self, req: Request):
         user = req.user
         match = MatchHandler.find_by_user(user)
+        print(f"match: {match}")
+
         if not match:
             return Response({"match": None}, status=200)
+        question = QuestionHandler.get_by_match(match)
 
-        serialized_match = MatchSerializers.Model(match).data
-        return Response(data={"match": serialized_match}, status=200)
+        data = MatchSerializers.Integrated(
+            match=match, husband=match.male, wife=match.female, question=question
+        ).data
+        print(f"data: {data}")
+        return Response(data=data, status=200)
 
     @swagger_auto_schema(
         operation_summary="매치 체결 API",

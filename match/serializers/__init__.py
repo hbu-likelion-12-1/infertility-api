@@ -15,7 +15,7 @@ class MatchSerializers:
         pass
 
     class Integrated(serializers.ModelSerializer):
-        match = Model()
+        match = serializers.SerializerMethodField()
         husband = serializers.SerializerMethodField()
         wife = serializers.SerializerMethodField()
         question = serializers.SerializerMethodField()
@@ -25,25 +25,35 @@ class MatchSerializers:
             fields = ["match", "husband", "wife", "question"]
 
         def __init__(self, *args, **kwargs):
+            self.match_instance = kwargs.pop("match", None)
             self.husband_instance = kwargs.pop("husband", None)
             self.wife_instance = kwargs.pop("wife", None)
             self.question_instance = kwargs.pop("question", None)
             super().__init__(*args, **kwargs)
 
+        def get_match(self, obj):
+            return self.match
+
         def get_husband(self, obj):
-            if not self.husband_instance:
-                return None
-            return UserDetails.UserWithQuestionId(self.husband_instance).data
+            return (
+                UserDetails.UserWithQuestionId(self.husband_instance).data
+                if self.husband_instance
+                else None
+            )
 
         def get_wife(self, obj):
-            if not self.wife_instance:
-                return None
-            return UserDetails.UserWithQuestionId(self.wife_instance).data
+            return (
+                UserDetails.UserWithQuestionId(self.wife_instance).data
+                if self.wife_instance
+                else None
+            )
 
         def get_question(self, obj):
-            if not self.question_instance:
-                return None
-            return QuestionSerializer.Model(self.question_instance)
+            return (
+                QuestionSerializer.Model(self.question_instance).data
+                if self.question_instance
+                else None
+            )
 
     class WithQuestion(serializers.ModelSerializer):
         match = Model()

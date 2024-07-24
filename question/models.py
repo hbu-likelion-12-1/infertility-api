@@ -33,4 +33,6 @@ class QuestionAnswer(models.Model):
     question = models.ForeignKey(
         Question, related_name="question_answers", on_delete=models.CASCADE
     )
-    created_at = models.DateTimeField(auto_now_add=True, db_comment="마음 작성일")
+    created_at = models.DateTimeField(
+        auto_now_add=True, db_comment="마음 작성일", blank=True, null=True
+    )

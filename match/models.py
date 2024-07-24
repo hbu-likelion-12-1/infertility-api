@@ -58,3 +58,6 @@ class Match(models.Model):
         match.save()
 
         return match
+
+    def __str__(self):
+        return str(self.id)

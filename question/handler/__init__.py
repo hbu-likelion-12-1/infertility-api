@@ -21,6 +21,10 @@ class QuestionHandler:
             raise AppError(code=404, detail="질문이 존재하지 않습니다")
 
     @staticmethod
+    def get_by_match(match: Match):
+        return Question.objects.filter(match=match).first()
+
+    @staticmethod
     def get_last_week_emotions(match: Match):
         now = timezone.now()
         last_week = now - timedelta(days=7)

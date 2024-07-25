@@ -31,7 +31,6 @@ INSTALLED_APPS = [
     "users",
     "question",
     "match",
-    "answer",
 ]
 
 MIDDLEWARE = [

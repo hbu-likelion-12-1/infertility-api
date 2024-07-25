@@ -6,6 +6,8 @@ from question.serializers import QuestionSerializer, QuestionAnswerSerializer
 from question.handler import QuestionHandler, MindHandler
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from app.error import AppError
+from app.s3 import S3FileUploadSerializer
 
 
 class MindAnswerAPI(APIView):
@@ -52,3 +54,28 @@ class MindReadAPI(APIView):
         mind = MindHandler.find_by_id(mind_id)
         data = QuestionAnswerSerializer.Model(mind).data
         return Response(data=data, status=200)
+
+
+class UploadVoiceAPI(APIView):
+    @swagger_auto_schema(
+        operation_summary="음성 데이터 업로드 API",
+        manual_parameters=[
+            openapi.Parameter(
+                "voice",
+                openapi.IN_FORM,
+                type=openapi.TYPE_FILE,
+                description="음성 데이터",
+                required=True,
+            )
+        ],
+    )
+    def post(self, req: Request, question_id: int):
+        voice = req.FILES["voice"]
+        if not voice:
+            raise AppError(400, "음성 파일이 존재하지 않습니다")
+        question = QuestionHandler.get_by_id(question_id)
+        file_url = S3FileUploadSerializer(data=voice).data
+        updated_question = QuestionHandler.update_voice(
+            question, req.user, file_url)
+        data = QuestionSerializer.Model(updated_question).data
+        return Response(data=data, status=201)

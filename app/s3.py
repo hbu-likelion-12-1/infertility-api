@@ -22,4 +22,4 @@ class S3FileUploadSerializer(serializers.Serializer):
         filename = file.name
 
         s3.upload_fileobj(file, s3_details["bucket_name"], filename)
-        return {"file_url": f'{s3_details["cloudfront_url"]}/{filename}'}
+        return f"{s3_details['cloudfront_url']}/{filename}"

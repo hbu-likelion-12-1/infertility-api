@@ -39,6 +39,16 @@ class QuestionHandler:
             "wife_emotions": wife,
         }
 
+    @staticmethod
+    def update_voice(question: Question, user: User, file_url: str):
+        is_male = user.sex == "M"
+        if is_male:
+            question.male_audio_url = file_url
+        else:
+            question.female_audio_url = file_url
+        question.save()
+        return question
+
 
 class MindHandler:
     @staticmethod

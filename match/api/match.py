@@ -16,10 +16,9 @@ class MatchAPI(APIView):
     def get(self, req: Request):
         user = req.user
         match = MatchHandler.find_by_user(user)
-        print(f"match: {match}")
 
         if not match:
-            return Response({"match": None}, status=200)
+            return Response(data=None, status=200)
         question = QuestionHandler.get_by_match(match)
 
         data = MatchSerializers.Integrated(
@@ -29,7 +28,6 @@ class MatchAPI(APIView):
             wife_instance=match.female,
             question_instance=question,
         ).data
-        print(f"data: {data}")
         return Response(data=data, status=200)
 
     @swagger_auto_schema(

@@ -21,24 +21,39 @@ urlpatterns = [
     path("api/match/", include("match.urls")),
     path("api/question/", include("question.urls")),
     path("api/bloom/", include("bloom_ai.urls")),
+    re_path(
+        r"swagger(?P<format>.json|.yaml)$",
+        schema_view.without_ui(cache_timeout=0),
+        name="schema-json",
+    ),
+    re_path(
+        r"^swagger/$",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
+    re_path(
+        r"redoc/$",
+        schema_view.with_ui("redoc", cache_timeout=0),
+        name="schema-redoc",
+    ),
 ]
 
-env: str = AppEnvironment.run_env()
-if env == "dev":
-    urlpatterns += [
-        re_path(
-            r"swagger(?P<format>.json|.yaml)$",
-            schema_view.without_ui(cache_timeout=0),
-            name="schema-json",
-        ),
-        re_path(
-            r"^swagger/$",
-            schema_view.with_ui("swagger", cache_timeout=0),
-            name="schema-swagger-ui",
-        ),
-        re_path(
-            r"redoc/$",
-            schema_view.with_ui("redoc", cache_timeout=0),
-            name="schema-redoc",
-        ),
-    ]
+# env: str = AppEnvironment.run_env()
+# if env == "dev":
+#     urlpatterns += [
+#         re_path(
+#             r"swagger(?P<format>.json|.yaml)$",
+#             schema_view.without_ui(cache_timeout=0),
+#             name="schema-json",
+#         ),
+#         re_path(
+#             r"^swagger/$",
+#             schema_view.with_ui("swagger", cache_timeout=0),
+#             name="schema-swagger-ui",
+#         ),
+#         re_path(
+#             r"redoc/$",
+#             schema_view.with_ui("redoc", cache_timeout=0),
+#             name="schema-redoc",
+#         ),
+#     ]

@@ -4,7 +4,7 @@ from match.handler import MatchHandler
 from question.provider import QuestionProvider
 from drf_yasg.utils import swagger_auto_schema
 from question.serializers import QuestionSerializer, QuestionAnswerSerializer
-from .mind import MindAnswerAPI, MindReadAPI
+from .mind import MindAnswerAPI, MindReadAPI, UploadVoiceAPI
 
 
 class QuestionAPI(APIView):

@@ -8,6 +8,7 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from app.error import AppError
 from app.s3 import S3FileUploadSerializer
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class MindAnswerAPI(APIView):
@@ -57,15 +58,17 @@ class MindReadAPI(APIView):
 
 
 class UploadVoiceAPI(APIView):
+    parser_classes = (MultiPartParser,)
+
     @swagger_auto_schema(
         operation_summary="음성 데이터 업로드 API",
         manual_parameters=[
             openapi.Parameter(
-                "voice",
-                openapi.IN_FORM,
+                name="voice",
+                in_=openapi.IN_FORM,
                 type=openapi.TYPE_FILE,
-                description="음성 데이터",
                 required=True,
+                description="음성 데이터 파일",
             )
         ],
     )

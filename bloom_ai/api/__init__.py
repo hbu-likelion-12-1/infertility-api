@@ -14,7 +14,7 @@ class BloomAPI(APIView):
     )
     def get(self, req: Request):
         user: User = req.user
-        match = MatchHandler.get_by_user(user)
+        match = MatchHandler.find_by_user(user)
 
         question = Question.objects.filter(
             match=match).order_by("-created_at").first()

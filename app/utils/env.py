@@ -21,6 +21,14 @@ database_details: Dict[str, str] = {
     "password": os.environ.get("DB_PASSWORD"),
 }
 
+s3_details: Dict[str, str] = {
+    "secret_key": os.environ.get("S3_SECRET_KEY"),
+    "access_key": os.environ.get("S3_ACCESS_KEY"),
+    "region": os.environ.get("REGION"),
+    "bucket_name": os.environ.get("BUCKET_NAME"),
+    "cloudfront_url": os.environ.get("CF_URL"),
+}
+
 
 def check_none_in_dict(d: dict) -> bool:
     for key, value in d.items():
@@ -69,6 +77,12 @@ class AppEnvironment:
         if check_none_in_dict(database_details):
             raise EnvironmentError("DATABASE environment variable not set")
         return database_details
+
+    @staticmethod
+    def s3_details():
+        if check_none_in_dict(s3_details):
+            raise EnvironmentError("S3 environment variable not set")
+        return s3_details
 
     @staticmethod
     def run_env():

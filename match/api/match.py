@@ -3,9 +3,11 @@ from match.serializers import MatchSerializers
 from app.error import AppError
 from users.models import User
 from match.handler import InviteCodeHandler, MatchHandler
+from match.models import Match
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from question.provider import QuestionProvider
+from question.models import Question
 from question.handler import QuestionHandler
 
 
@@ -19,15 +21,10 @@ class MatchAPI(APIView):
 
         if not match:
             return Response(data=None, status=200)
-        question = QuestionHandler.get_by_match(match)
 
-        data = MatchSerializers.Integrated(
-            instance=match,
-            match_id=match.id,
-            husband_instance=match.male,
-            wife_instance=match.female,
-            question_instance=question,
-        ).data
+        question = QuestionHandler.get_by_match(match)
+        data = get_integrated_match(match, question)
+
         return Response(data=data, status=200)
 
     @swagger_auto_schema(
@@ -50,13 +47,21 @@ class MatchAPI(APIView):
         creator: User = invite_code.creator
 
         validate_create_match(creator, req.user)
-        match = MatchHandler.create(creator, req.user)
+        match: Match = MatchHandler.create(creator, req.user)
         first_question = QuestionProvider(match=match).create_question()
+        data = get_integrated_match(match, first_question)
 
-        result_serializer = MatchSerializers.WithQuestion(
-            {"match": match, "question": first_question}
-        )
-        return Response(data=result_serializer.data, status=201)
+        return Response(data=data, status=201)
+
+
+def get_integrated_match(match: Match, question: Question):
+    return MatchSerializers.Integrated(
+        instance=match,
+        match_id=match.id,
+        husband_instance=match.male,
+        wife_instance=match.female,
+        question_instance=question,
+    ).data
 
 
 def validate_create_match(u1: User, u2: User):

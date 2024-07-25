@@ -31,6 +31,14 @@ class UserDetails:
                 "kakao_id",
                 "groups",
                 "user_permissions",
+                "depression_test",
+                "infertility",
+                "region",
+                "city",
+                "town",
+                "birthday",
+                "created_at",
+                "password",
             ]
 
         def get_mind_id(self, obj: User):

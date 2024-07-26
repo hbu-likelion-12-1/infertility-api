@@ -123,11 +123,14 @@ SIMPLE_JWT = {
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOWED_ORIGINS = [
-    "http://galaxy4276.asuscomm.com:3000",
-    "http://localhost:3000",
-    "http://localhost:8008",
-]
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
 
 AUTH_USER_MODEL = "users.User"
 

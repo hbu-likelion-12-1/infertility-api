@@ -8,9 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 ENV = AppEnvironment.run_env()
 SECRET_KEY = AppEnvironment.secret_key()
 
-DEBUG = True
-# if ENV != "dev":
-#     DEBUG = False
+DEBUG = True if ENV == "dev" else False
 
 ALLOWED_HOSTS = ["*"]
 PORT = 8008
@@ -22,6 +20,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
     "rest_framework_simplejwt",
     "app",
     "drf_yasg",
@@ -34,6 +33,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -119,6 +119,9 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://galaxy4276.asuscomm.com:3000",

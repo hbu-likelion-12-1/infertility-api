@@ -36,3 +36,14 @@ class QuestionAnswer(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True, db_comment="마음 작성일", blank=True, null=True
     )
+
+class QuestionComment(models.Model):
+    id = models.AutoField(primary_key=True)
+    content = models.CharField(max_length=100, db_comment="마음 댓글 내용")
+    writer = models.ForeignKey(
+        User, related_name="user_question_comments", on_delete=models.CASCADE
+    )
+    created_at = models.DateTimeField(auto_now_add=True, db_comment="마음 댓글 작성일")
+
+    def __str__(self):
+        return self.content

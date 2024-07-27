@@ -77,7 +77,9 @@ class UploadVoiceAPI(APIView):
         if not voice:
             raise AppError(400, "음성 파일이 존재하지 않습니다")
         question = QuestionHandler.get_by_id(question_id)
-        file_url = S3FileUploadSerializer(data=voice).data
+        file_uploader = S3FileUploadSerializer(data={"file": voice})
+        file_uploader.is_valid(raise_exception=True)
+        file_url = file_uploader.save()
         updated_question = QuestionHandler.update_voice(
             question, req.user, file_url)
         data = QuestionSerializer.Model(updated_question).data

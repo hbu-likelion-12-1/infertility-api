@@ -33,7 +33,7 @@ class KakaoRedirectAPI(APIView):
 
     @swagger_auto_schema(operation_summary="카카오 인증 URL 리다이렉트 API")
     def get(self, req):
-        return Response(data={"url": AppEnvironment.kakao_auth_url}, status=302)
+        return Response(data={"url": AppEnvironment.kakao_auth_url}, status=200)
 
 
 class KakaoLoginAPI(APIView):

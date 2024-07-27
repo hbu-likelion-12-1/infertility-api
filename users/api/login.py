@@ -6,7 +6,7 @@ from users.serializers import UserSerializer
 class LoginService:
     @staticmethod
     def login(kakao_id: str):
-        user: User = User.objects.filter(kakao_id=kakao_id).get()
+        user: User = User.objects.filter(kakao_id=kakao_id).first()
         if not user:
             return {"user": None, "access_token": None, "kakao_id": kakao_id}
 

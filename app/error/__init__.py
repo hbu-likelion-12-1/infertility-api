@@ -13,6 +13,7 @@ def handler(exc, context):
     response = exception_handler(exc, context)
 
     if response is not None:
+        print(f"error: {response.data}")
         custom_response_data = {
             "error": response.data.get("detail", "An error occurred")
         }

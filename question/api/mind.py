@@ -2,13 +2,17 @@ from rest_framework.views import APIView, Request, Response
 from users.models import User
 from rest_framework import status
 from bloom_ai.feedback import BloomFeedbackProvider
-from question.serializers import QuestionSerializer, QuestionAnswerSerializer
+from question.serializers import QuestionSerializer, QuestionAnswerSerializer, QuestionCommentSerializer
 from question.handler import QuestionHandler, MindHandler
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from app.error import AppError
 from app.s3 import S3FileUploadSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
+from question.models import Question
 
 
 class MindAnswerAPI(APIView):
@@ -84,3 +88,19 @@ class UploadVoiceAPI(APIView):
             question, req.user, file_url)
         data = QuestionSerializer.Model(updated_question).data
         return Response(data=data, status=201)
+    
+class CommentAPI(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        operation_summary="마음 댓글 작성 API",
+        request_body=QuestionCommentSerializer,
+    )
+
+    def post(self, req: Request, question_id: int):
+        question = get_object_or_404(Question, id=question_id)
+        serializer = QuestionCommentSerializer(data=req.data)
+        if serializer.is_valid():
+            comment = serializer.save(writer=req.user, question=question)
+            return Response(QuestionCommentSerializer(comment).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

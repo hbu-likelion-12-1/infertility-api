@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from question.models import Question, QuestionAnswer
+from question.models import Question, QuestionAnswer, QuestionComment
 
 
 class QuestionSerializer:
@@ -41,3 +41,10 @@ class QuestionAnswerSerializer:
         class Meta:
             model = QuestionAnswer
             fields = "__all__"
+
+
+class QuestionCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestionComment
+        fields = "__all__"
+        read_only_fields = ['id', 'writer', 'question', 'created_at']

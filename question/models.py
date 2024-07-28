@@ -43,6 +43,9 @@ class QuestionComment(models.Model):
     writer = models.ForeignKey(
         User, related_name="user_question_comments", on_delete=models.CASCADE
     )
+    question = models.ForeignKey(
+        Question, related_name="question_comment", on_delete=models.CASCADE
+    )
     created_at = models.DateTimeField(auto_now_add=True, db_comment="마음 댓글 작성일")
 
     def __str__(self):

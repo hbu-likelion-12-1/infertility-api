@@ -51,7 +51,9 @@ Give me the result of this in Korean
 
     def create(self, question: Question, husband: QuestionAnswer, wife: QuestionAnswer):
         assembled = self.assemble_template(
-            question.content, husband.content, wife.content
+            question.content,
+            getattr(husband, "content", ""),
+            getattr(wife, "content", ""),
         )
         query_result = self.bloom_ai.query(assembled)
         feedback = BloomFeedback(question=question, content=query_result)
@@ -62,7 +64,9 @@ Give me the result of this in Korean
         self, feedback: BloomFeedback, husband: QuestionAnswer, wife: QuestionAnswer
     ):
         assembled = self.assemble_template(
-            feedback.question.content, husband.content, wife.content
+            feedback.question.content,
+            getattr(husband, "content", ""),
+            getattr(wife, "content", ""),
         )
         query_result = self.bloom_ai.query(assembled)
         feedback.content = query_result

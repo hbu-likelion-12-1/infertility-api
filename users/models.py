@@ -85,12 +85,12 @@ class UserDepressionTest(models.Model):
 
 class UserInfertility(models.Model):
     id = models.IntegerField(primary_key=True)
-    period = TextEnumField(enum=InferPeriod)
-    care_status = TextEnumField(enum=InferCareStatus)
-    cause = TextEnumField(enum=InferCause)
-    cost = TextEnumField(enum=InferCost)
-    workplace_comprehension = TextEnumField(enum=WorkplaceComprehension)
-    communication = TextEnumField(enum=InferCommunication)
+    period = models.CharField()
+    care_status = models.CharField()
+    cause = models.CharField()
+    cost = models.CharField()
+    workplace_comprehension = models.CharField()
+    communication = models.CharField()
 
 
 class OAuthIdentifier(models.Model):

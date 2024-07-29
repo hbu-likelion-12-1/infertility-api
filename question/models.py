@@ -26,7 +26,7 @@ class Question(models.Model):
 class QuestionAnswer(models.Model):
     id = models.AutoField(primary_key=True)
     content = models.CharField(max_length=200, db_comment="마음 게시글 본문")
-    emotion = TextEnumField(enum=Emotion)
+    emotion = models.CharField(max_length=10)
     writer = models.ForeignKey(
         User, related_name="user_question_answers", on_delete=models.SET_NULL, null=True
     )
@@ -37,6 +37,7 @@ class QuestionAnswer(models.Model):
         auto_now_add=True, db_comment="마음 작성일", blank=True, null=True
     )
 
+
 class QuestionComment(models.Model):
     id = models.AutoField(primary_key=True)
     content = models.CharField(max_length=100, db_comment="마음 댓글 내용")
@@ -46,7 +47,8 @@ class QuestionComment(models.Model):
     question = models.ForeignKey(
         Question, related_name="question_comment", on_delete=models.CASCADE
     )
-    created_at = models.DateTimeField(auto_now_add=True, db_comment="마음 댓글 작성일")
+    created_at = models.DateTimeField(
+        auto_now_add=True, db_comment="마음 댓글 작성일")
 
     def __str__(self):
         return self.content

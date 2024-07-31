@@ -41,7 +41,7 @@ def check_none_in_dict(d: dict) -> bool:
 def get_redirect_uri():
     env = app_env
     if env == "dev":
-        return "http://localhost:3000/kakao"
+        return "http://localhost:5555/kakao"
     return "http://galaxy4276.asuscomm.com:3000/kakao"
 
 

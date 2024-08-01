@@ -79,20 +79,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class UserDepressionTest(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     json = models.JSONField()
 
 
 class UserInfertility(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     period = models.CharField()
     care_status = models.CharField()
     cause = models.CharField()
     cost = models.CharField()
     workplace_comprehension = models.CharField()
     communication = models.CharField()
-
-
-class OAuthIdentifier(models.Model):
-    id = models.IntegerField(primary_key=True)
-    identifier = models.CharField()

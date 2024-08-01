@@ -17,15 +17,17 @@ class SignupAPI(APIView):
     )
     def post(self, req: Request):
         signup_handler = UserSerializer.Auth.Signup(data=req.data)
+        kakao_user_id = req.data["kakao_id"]
 
-        exists = UserSerializer.User.exists_kakao(
-            kakao_id=req.data["kakao_id"])
+        exists = UserSerializer.User.exists_kakao(kakao_id=kakao_user_id)
         if exists is True:
             raise AppError(409, "이미 존재하는 회원입니다.")
 
         signup_handler.is_valid(raise_exception=True)
         signup_handler.signup(signup_handler.validated_data)
-        return Response(status=201)
+        login_details = LoginService.login(kakao_id=kakao_user_id)
+
+        return Response(data=login_details, status=201)
 
 
 class KakaoRedirectAPI(APIView):

@@ -55,12 +55,9 @@ class User(AbstractBaseUser, PermissionsMixin):
             town=data["town"],
             birthday=data["birthday"],
             kakao_id=data["kakao_id"],
-        ).save()
-
+        )
         depression_test = UserDepressionTest(
-            json=data["depression_test"], user=user
-        ).save()
-
+            json=data["depression_test"], user=user)
         user_infer = UserInfertility(
             period=data["period"],
             care_status=data["care_status"],
@@ -69,7 +66,9 @@ class User(AbstractBaseUser, PermissionsMixin):
             workplace_comprehension=data["workplace_comprehension"],
             communication=data["communication"],
             user=user,
-        ).save()
+        )
+        depression_test.save()
+        user_infer.save()
 
         user.infertility = user_infer
         user.depression_test = depression_test

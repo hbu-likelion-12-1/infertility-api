@@ -7,7 +7,7 @@ from django.db.models import Q
 class InviteCodeHandler:
     @staticmethod
     def find_by_code(code: str):
-        invite_code: InviteCode = InviteCode.objects.get(code=code)
+        invite_code: InviteCode = InviteCode.objects.filter(code=code).first()
         if not invite_code:
             raise AppError(404, "초대 코드가 존재하지 않습니다")
 

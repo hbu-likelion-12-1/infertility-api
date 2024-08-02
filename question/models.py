@@ -45,7 +45,11 @@ class QuestionComment(models.Model):
         User, related_name="user_question_comments", on_delete=models.CASCADE
     )
     question = models.ForeignKey(
-        Question, related_name="question_comment", on_delete=models.CASCADE
+        Question,
+        related_name="question_comment",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
     )
     created_at = models.DateTimeField(
         auto_now_add=True, db_comment="마음 댓글 작성일")

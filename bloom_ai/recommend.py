@@ -1,13 +1,15 @@
 import os
 from .gpt import BloomAI
-from dotenv import load_dotenv
+
+# from dotenv import load_dotenv
 import requests
 
 gpt = BloomAI()
-load_dotenv()
+# load_dotenv()
 
-NAVER_CLIENT_ID = os.getenv('NAVER_CLIENT_ID')
+NAVER_CLIENT_ID = os.getenv("NAVER_CLIENT_ID")
 NAVER_CLIENT_SECRET = os.getenv("NAVER_CLIENT_SECRET")
+
 
 class BloomRecommend:
     recommend_template = """
@@ -19,27 +21,28 @@ class BloomRecommend:
 
 
 def __init__(self):
-   self.bloom_ai = BloomAI()
+    self.bloom_ai = BloomAI()
+
 
 def get_region(self, latitude, longitude):
     url = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc"
     params = {
-        'coords': f'{longitude},{latitude}',
-        'output': 'json',
-        'orders': 'legalcode, admcode',
+        "coords": f"{longitude},{latitude}",
+        "output": "json",
+        "orders": "legalcode, admcode",
     }
     headers = {
-        'X-NCP-APIGW-API-KEY-ID': NAVER_CLIENT_ID,
-        'X_''X-NCP-APIGW-API-KEY': NAVER_CLIENT_SECRET,
+        "X-NCP-APIGW-API-KEY-ID": NAVER_CLIENT_ID,
+        "X_" "X-NCP-APIGW-API-KEY": NAVER_CLIENT_SECRET,
     }
     response = requests.get(url, headers=headers, params=params)
     if response.status_code == 200:
         data = response.json()
-        if data.get('results'):
-            region_info = data['results'][0]['region']
+        if data.get("results"):
+            region_info = data["results"][0]["region"]
             region_name = f"{region_info['area1']['name']} {region_info['area2']['name']} {region_info['area3']['name']}"
             return region_name
-        
+
     return None
 
 
@@ -51,4 +54,4 @@ def recommend_activity(self, latitude, longitude):
         query = f"현재 사용자는 {region_name}에 있습니다. 활동을 추천해 주세요"
     recommendation = self.bloom_ai.query(query)
 
-    return recommendation 
+    return recommendation

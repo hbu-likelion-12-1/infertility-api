@@ -4,8 +4,8 @@ from users.models import User
 
 class AuthSerializer:
     class Signup(serializers.Serializer):
-        username = serializers.CharField(max_length=10, required=True)
-        sex = serializers.CharField(max_length=1, required=True)
+        username = serializers.CharField(required=True)
+        sex = serializers.CharField(required=True)
         birthday = serializers.DateField(required=True)
         region = serializers.CharField(max_length=20)
         city = serializers.CharField(max_length=20)

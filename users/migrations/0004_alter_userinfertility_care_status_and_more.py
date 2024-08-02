@@ -13,31 +13,31 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="userinfertility",
             name="care_status",
-            field=models.CharField(max_length=10),
+            field=models.CharField(),
         ),
         migrations.AlterField(
             model_name="userinfertility",
             name="cause",
-            field=models.CharField(max_length=10),
+            field=models.CharField(),
         ),
         migrations.AlterField(
             model_name="userinfertility",
             name="communication",
-            field=models.CharField(max_length=10),
+            field=models.CharField(),
         ),
         migrations.AlterField(
             model_name="userinfertility",
             name="cost",
-            field=models.CharField(max_length=10),
+            field=models.CharField(),
         ),
         migrations.AlterField(
             model_name="userinfertility",
             name="period",
-            field=models.CharField(max_length=10),
+            field=models.CharField(),
         ),
         migrations.AlterField(
             model_name="userinfertility",
             name="workplace_comprehension",
-            field=models.CharField(max_length=10),
+            field=models.CharField(),
         ),
     ]

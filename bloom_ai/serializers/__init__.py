@@ -9,14 +9,19 @@ class Model(serializers.ModelSerializer):
 
 
 class BloomSerializers:
-    class Report(serializers.ModelSerializer):
-        feedback = Model()
+    class Report(serializers.Serializer):
+        feedback = serializers.SerializerMethodField()
         emotions = serializers.SerializerMethodField()
-
-        class Meta:
-            model = BloomFeedback
-            fields = ["feedback", "emotions"]
 
         def __init__(self, *args, **kwargs):
             self.emotions = kwargs.pop("emotions", [])
+            self.feedback_instance = kwargs.pop("feedback_instance", None)
             super().__init__(*args, **kwargs)
+
+        def get_feedback(self, obj):
+            return (
+                Model(self.feedback_instance).data if self.feedback_instance else None
+            )
+
+        def get_emotions(self, obj):
+            return self.emotions

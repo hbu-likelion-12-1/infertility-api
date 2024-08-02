@@ -22,5 +22,6 @@ class BloomAPI(APIView):
         feedback = BloomFeedback.objects.filter(question=question).first()
 
         bloom_ai_details = BloomSerializers.Report(
-            feedback, emotions=emotions).data
+            instance=feedback, feedback_instance=feedback, emotions=emotions
+        ).data
         return Response(data=bloom_ai_details, status=200)

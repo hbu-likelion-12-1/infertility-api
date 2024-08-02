@@ -1,3 +1,4 @@
+from question.serializers import QuestionAnswerSerializer
 from question.models import Question, QuestionAnswer
 from app.error import AppError
 from match.models import Match
@@ -5,6 +6,7 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from typing import List
 from users.models import User
+from django.db.models import Q
 
 
 class QuestionHandler:
@@ -28,15 +30,20 @@ class QuestionHandler:
     def get_last_week_emotions(match: Match):
         now = timezone.now()
         last_week = now - timedelta(days=7)
-        minds: List[QuestionAnswer] = list(
+        husband_minds: List[QuestionAnswer] = list(
             QuestionAnswer.objects.filter(
-                match=match, created_at__gte=last_week)
+                writer=match.male, created_at__gte=last_week)
         )
-        husband = list(filter(lambda mind: mind.writer.gender == "M", minds))
-        wife = list(filter(lambda mind: mind.writer.gender == "F", minds))
+        wife_minds: List[QuestionAnswer] = list(
+            QuestionAnswer.objects.filter(
+                writer=match.female, created_at__gte=last_week
+            )
+        )
         return {
-            "husband_emotions": husband,
-            "wife_emotions": wife,
+            "husband_emotions": QuestionAnswerSerializer.Model(
+                husband_minds, many=True
+            ).data,
+            "wife_emotions": QuestionAnswerSerializer.Model(wife_minds, many=True).data,
         }
 
     @staticmethod

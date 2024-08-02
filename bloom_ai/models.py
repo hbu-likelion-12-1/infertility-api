@@ -9,3 +9,6 @@ class BloomFeedback(models.Model):
         Question, related_name="bloom_feedbacks", on_delete=models.CASCADE
     )
     created_at = models.DateTimeField(auto_now_add=True, db_comment="피드백 생성일")
+
+    def __str__(self):
+        return f"feedback_id: {self.id}"

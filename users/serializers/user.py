@@ -47,3 +47,4 @@ class UserDetails:
                 self.mind_id = None
                 return
             self.mind_id = mind.id
+            return mind.id

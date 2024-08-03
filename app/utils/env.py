@@ -42,7 +42,7 @@ def get_redirect_uri():
     env = app_env
     if env == "dev":
         return "http://localhost:5555/kakao"
-    return "http://galaxy4276.asuscomm.com:3000/kakao"
+    return "http://galaxy4276.asuscomm.com:5555/kakao"
 
 
 kakao_auth_url = "https://kauth.kakao.com/oauth/authorize"

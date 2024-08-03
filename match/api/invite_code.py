@@ -10,6 +10,8 @@ class InviteCodeAPI(APIView):
             InviteCode.objects.filter(
                 creator=req.user).order_by("-created_at").first()
         )
+        if not invite_code:
+            return Response(data=None, status=200)
         return Response(data=invite_code.code, status=200)
 
     @swagger_auto_schema(operation_summary="초대 코드 발급 API")

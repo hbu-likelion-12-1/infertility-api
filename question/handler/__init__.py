@@ -72,3 +72,13 @@ class MindHandler:
             .order_by("-created_at")
             .first()
         )
+
+    @staticmethod
+    def find_by_question(question: Question):
+        husband = QuestionAnswer.objects.filter(
+            question__match__male=question.match.male
+        ).first()
+        wife = QuestionAnswer.objects.filter(
+            question__match__female=question.match.female
+        ).first()
+        return {"husband": husband, "wife": wife}

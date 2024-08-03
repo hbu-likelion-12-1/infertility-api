@@ -2,7 +2,11 @@ from rest_framework.views import APIView, Request, Response
 from users.models import User
 from rest_framework import status
 from bloom_ai.feedback import BloomFeedbackProvider
-from question.serializers import QuestionSerializer, QuestionAnswerSerializer, QuestionCommentSerializer
+from question.serializers import (
+    QuestionSerializer,
+    QuestionAnswerSerializer,
+    QuestionCommentSerializer,
+)
 from question.handler import QuestionHandler, MindHandler
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -61,6 +65,27 @@ class MindReadAPI(APIView):
         return Response(data=data, status=200)
 
 
+class MindReadByQuestionAPI(APIView):
+    @swagger_auto_schema(
+        operation_summary="질문 ID로 마음 조회 API",
+        manual_parameters=[
+            openapi.Parameter(
+                "id",
+                openapi.IN_QUERY,
+                description="질문 id",
+                type=openapi.TYPE_STRING,
+            )
+        ],
+    )
+    def get(self, req: Request, question_id: int):
+        question = QuestionHandler.get_by_id(question_id)
+        mind = MindHandler.find_by_question(question)
+        mind["husband"] = QuestionAnswerSerializer.Model(mind["husband"])
+        mind["wife"] = QuestionAnswerSerializer.Model(mind["wife"])
+
+        return Response(data=mind, status=200)
+
+
 class UploadVoiceAPI(APIView):
     parser_classes = (MultiPartParser,)
 
@@ -88,7 +113,8 @@ class UploadVoiceAPI(APIView):
             question, req.user, file_url)
         data = QuestionSerializer.Model(updated_question).data
         return Response(data=data, status=201)
-    
+
+
 class CommentAPI(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -96,11 +122,13 @@ class CommentAPI(APIView):
         operation_summary="마음 댓글 작성 API",
         request_body=QuestionCommentSerializer,
     )
-
     def post(self, req: Request, question_id: int):
         question = get_object_or_404(Question, id=question_id)
         serializer = QuestionCommentSerializer(data=req.data)
         if serializer.is_valid():
             comment = serializer.save(writer=req.user, question=question)
-            return Response(QuestionCommentSerializer(comment).data, status=status.HTTP_201_CREATED)
+            return Response(
+                QuestionCommentSerializer(
+                    comment).data, status=status.HTTP_201_CREATED
+            )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -32,14 +32,18 @@ class MatchSerializers:
 
         def get_husband(self, obj):
             return (
-                UserDetails.UserWithQuestionId(self.husband_instance).data
+                UserDetails.UserWithQuestionId(
+                    self.husband_instance, question=self.question_instance
+                ).data
                 if self.husband_instance
                 else None
             )
 
         def get_wife(self, obj):
             wife = (
-                UserDetails.UserWithQuestionId(self.wife_instance).data
+                UserDetails.UserWithQuestionId(
+                    self.wife_instance, question=self.question_instance
+                ).data
                 if self.wife_instance
                 else None
             )

@@ -24,7 +24,7 @@ class QuestionHandler:
 
     @staticmethod
     def get_by_match(match: Match):
-        return Question.objects.filter(match=match).first()
+        return Question.objects.filter(match=match).order_by("-created_at").first()
 
     @staticmethod
     def get_last_week_emotions(match: Match):
@@ -66,8 +66,9 @@ class MindHandler:
         return question
 
     @staticmethod
-    def first_by_user(user: User) -> QuestionAnswer | None:
+    def first_by_user(user: User, question: Question) -> QuestionAnswer | None:
         return (
-            QuestionAnswer.objects.filter(
-                writer=user).order_by("-created_at").first()
+            QuestionAnswer.objects.filter(writer=user, question=question)
+            .order_by("-created_at")
+            .first()
         )

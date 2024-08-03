@@ -43,13 +43,13 @@ class MatchAPI(APIView):
         if not query:
             raise AppError(400, "초대 코드가 존재하지 않습니다")
         invite_code = InviteCodeHandler.find_by_code(code=query)
-        invite_code.delete()
         creator: User = invite_code.creator
 
         validate_create_match(creator, req.user)
         match: Match = MatchHandler.create(creator, req.user)
         first_question = QuestionProvider(match=match).create_question()
         data = get_integrated_match(match, first_question)
+        invite_code.delete()
 
         return Response(data=data, status=201)
 

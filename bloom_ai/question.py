@@ -102,7 +102,7 @@ And please don't think about the questions below because they've already been as
         return Question.create(content=created_question, match=match)
 
     def get_subfertility_details(self, user: User):
-        infer = user.subfertility
+        infer = user.infertility
         return {
             "age_of_diagnosis": infer.period,
             "fertility_treatment_situation": infer.care_status,

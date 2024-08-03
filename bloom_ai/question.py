@@ -17,44 +17,44 @@ Example) Question: (Question content)
 
 I'll provide the following data about husband and wife And below are examples of questions.
 Example)
- - Timing of infertility diagnosis:
- - Situation of infertility treatment:
- - Main causes of infertility:
- - Financial burden of infertility treatment:
- - Support from family or others: - Understanding of infertility in the workplace:
+ - Timing of subfertility diagnosis:
+ - Situation of subfertility treatment:
+ - Main causes of subfertility:
+ - Financial burden of subfertility treatment:
+ - Support from family or others: - Understanding of subfertility in the workplace:
  - Communication about fertility issues between the couple:
 
 **Husband**.
- - Timing of infertility diagnosis: {male_age_of_diagnosis}
- - Situation of infertility treatment: {male_fertility_treatment_situation}
- - Main causes of infertility: {male_main_cause_of_infertility}
- - Financial burden of infertility treatment: {male_economic_burden_of_treatment}
+ - Timing of subfertility diagnosis: {male_age_of_diagnosis}
+ - Situation of subfertility treatment: {male_fertility_treatment_situation}
+ - Main causes of subfertility: {male_main_cause_of_subfertility}
+ - Financial burden of subfertility treatment: {male_economic_burden_of_treatment}
  - Support from family or others: {male_support_from_family}
- - Understanding of infertility in the workplace: {male_understanding_in_workplace}
+ - Understanding of subfertility in the workplace: {male_understanding_in_workplace}
  - Communication about fertility issues between the couple: {male_communication_between_couple}
 
 **wife**.
- - Timing of infertility diagnosis: {female_age_of_diagnosis}
- - Situation of infertility treatment: {female_fertility_treatment_situation}
- - Main causes of infertility: {female_main_cause_of_infertility}
- - Financial burden of infertility treatment: {female_economic_burden_of_treatment}
+ - Timing of subfertility diagnosis: {female_age_of_diagnosis}
+ - Situation of subfertility treatment: {female_fertility_treatment_situation}
+ - Main causes of subfertility: {female_main_cause_of_subfertility}
+ - Financial burden of subfertility treatment: {female_economic_burden_of_treatment}
  - Support from family or others: {female_support_from_family}
- - Understanding of infertility in the workplace: {female_understanding_in_workplace}
+ - Understanding of subfertility in the workplace: {female_understanding_in_workplace}
  - Communication about fertility issues between the couple: {female_communication_between_couple}
 
-How did you feel when you were diagnosed with infertility?
+How did you feel when you were diagnosed with subfertility?
 What was the most difficult moment during your fertility treatment?
 What comforting words did you say to each other after a failed treatment?
-How do you deal with the stress of infertility?
+How do you deal with the stress of subfertility?
 How was communication between the couple during the treatment process?
 What were the biggest conflicts you had with your fertility issues?
 What efforts are you making to understand each other's feelings?
-How have you talked to people around you about infertility?
+How have you talked to people around you about subfertility?
 How do you share the financial burden of treatment?
 What have you said or done that has been the most supportive to each other?
 How have you met each other's needs during fertility treatment?
 Where do you get information about fertility?
-Do you do hobbies to reduce the stress of infertility?
+Do you do hobbies to reduce the stress of subfertility?
 How do you respect each other's feelings?
 Have you considered other solutions besides fertility treatment?
 What stress-relieving activities do you engage in as a couple?
@@ -71,7 +71,7 @@ What are your mutual commitments to the success of your treatment?
 What are your expectations for each other during fertility treatment?
 Do you feel like you have enough fertility information and support?
 When have you been most grateful for each other?
-Do you have any special ways as a couple to cope with infertility?
+Do you have any special ways as a couple to cope with subfertility?
 
 And please don't think about the questions below because they've already been asked.
 {exists_questions}
@@ -90,8 +90,8 @@ And please don't think about the questions below because they've already been as
 
         question_list = list(map(lambda q: q.content, questions))
 
-        husband_infer = self.get_infertility_details(self.husband)
-        wife_infer = self.get_infertility_details(self.wife)
+        husband_infer = self.get_subfertility_details(self.husband)
+        wife_infer = self.get_subfertility_details(self.wife)
 
         template = self.assemble_template(
             husband_infer, wife_infer, question_list)
@@ -101,12 +101,12 @@ And please don't think about the questions below because they've already been as
         print(template)
         return Question.create(content=created_question, match=match)
 
-    def get_infertility_details(self, user: User):
-        infer = user.infertility
+    def get_subfertility_details(self, user: User):
+        infer = user.subfertility
         return {
             "age_of_diagnosis": infer.period,
             "fertility_treatment_situation": infer.care_status,
-            "main_cause_of_infertility": infer.cause,
+            "main_cause_of_subfertility": infer.cause,
             "economic_burden_of_treatment": infer.cost,
             "support_from_family": "",
             "understanding_in_workplace": infer.workplace_comprehension,
@@ -119,7 +119,7 @@ And please don't think about the questions below because they've already been as
             male_fertility_treatment_situation=husband_infer[
                 "fertility_treatment_situation"
             ],
-            male_main_cause_of_infertility=husband_infer["main_cause_of_infertility"],
+            male_main_cause_of_subfertility=husband_infer["main_cause_of_subfertility"],
             male_economic_burden_of_treatment=husband_infer[
                 "economic_burden_of_treatment"
             ],
@@ -132,7 +132,7 @@ And please don't think about the questions below because they've already been as
             female_fertility_treatment_situation=wife_infer[
                 "fertility_treatment_situation"
             ],
-            female_main_cause_of_infertility=wife_infer["main_cause_of_infertility"],
+            female_main_cause_of_subfertility=wife_infer["main_cause_of_subfertility"],
             female_economic_burden_of_treatment=wife_infer[
                 "economic_burden_of_treatment"
             ],

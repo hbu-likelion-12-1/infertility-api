@@ -42,8 +42,8 @@ class MatchAPI(APIView):
         query: str = req.GET.get("code")
         if not query:
             raise AppError(400, "초대 코드가 존재하지 않습니다")
-
         invite_code = InviteCodeHandler.find_by_code(code=query)
+        invite_code.delete()
         creator: User = invite_code.creator
 
         validate_create_match(creator, req.user)

@@ -41,8 +41,12 @@ class UserDetails:
                 "password",
             ]
 
+        def __init__(self, *args, **kwargs):
+            self.question = kwargs.pop("question", None)
+            super().__init__(*args, **kwargs)
+
         def get_mind_id(self, obj: User):
-            mind = MindHandler.first_by_user(user=obj)
+            mind = MindHandler.first_by_user(user=obj, question=self.question)
             if not mind:
                 self.mind_id = None
                 return

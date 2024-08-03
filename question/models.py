@@ -16,8 +16,12 @@ class Question(models.Model):
 
     @staticmethod
     def create(content: str, match: Match):
+        filter_content = content.replace("불임", "난임")
         question = Question(
-            content=content, match=match, female_audio_url=None, male_audio_url=None
+            content=filter_content,
+            match=match,
+            female_audio_url=None,
+            male_audio_url=None,
         )
         question.save()
         return question

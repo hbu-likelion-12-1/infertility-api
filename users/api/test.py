@@ -4,7 +4,7 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from rest_framework.permissions import AllowAny
 from users.models import User
-from question.models import Question
+from question.models import Question, QuestionComment, QuestionAnswer
 from match.models import Match, InviteCode
 from match.handler import MatchHandler
 

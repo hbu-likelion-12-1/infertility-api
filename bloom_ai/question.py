@@ -7,6 +7,14 @@ from .gpt import BloomAI
 
 class BloomQuestionCreator:
     question_creator_template = """
+I'll tell you the results of each UserDepressionTest score
+score 0 to score 4 is not depression,
+score 5 to score 9 is mild depression,
+score 10 to score 19 is moderate depression,
+score 20 to score 27 is severe depression.
+
+When you generate questions, use this score to generate questions based on the user's depression scale
+
 I'm developing a service that provides psychological counseling for infertile couples.
 I'm thinking of questions to ask in the service to counsel infertile couples.
 

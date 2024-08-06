@@ -1,12 +1,13 @@
 import os
 from .gpt import BloomAI  # BloomAI 클래스가 정의된 모듈
-from dotenv import load_dotenv
+import environ
+
 import requests
 
-load_dotenv()
+#load_dotenv()
 
-NAVER_CLIENT_ID = os.getenv('NAVER_CLIENT_ID')
-NAVER_CLIENT_SECRET = os.getenv("NAVER_CLIENT_SECRET")
+NAVER_CLIENT_ID = os.environ.get('NAVER_CLIENT_ID')
+NAVER_CLIENT_SECRET = os.environ.get("NAVER_CLIENT_SECRET")
 
 class BloomRecommend:
     recommend_template = """

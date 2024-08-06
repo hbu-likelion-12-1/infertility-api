@@ -40,6 +40,7 @@ Example)
  - Support from family or others: {male_support_from_family}
  - Understanding of subfertility in the workplace: {male_understanding_in_workplace}
  - Communication about fertility issues between the couple: {male_communication_between_couple}
+ - UserDepressionTest: {male_depression_score}
 
 **wife**.
  - Timing of subfertility diagnosis: {female_age_of_diagnosis}
@@ -49,6 +50,7 @@ Example)
  - Support from family or others: {female_support_from_family}
  - Understanding of subfertility in the workplace: {female_understanding_in_workplace}
  - Communication about fertility issues between the couple: {female_communication_between_couple}
+ - UserDepressionTest: {female_depression_score}
 
 How did you feel when you were diagnosed with subfertility?
 What was the most difficult moment during your fertility treatment?
@@ -111,6 +113,7 @@ And please don't think about the questions below because they've already been as
 
     def get_subfertility_details(self, user: User):
         infer = user.infertility
+        depression_score = user.depression_test.json
         return {
             "age_of_diagnosis": infer.period,
             "fertility_treatment_situation": infer.care_status,
@@ -119,7 +122,9 @@ And please don't think about the questions below because they've already been as
             "support_from_family": "",
             "understanding_in_workplace": infer.workplace_comprehension,
             "communication_between_couple": infer.communication,
+            "depression_score": depression_score
         }
+    
 
     def assemble_template(self, husband_infer, wife_infer, question_list):
         return self.question_creator_template.format(
@@ -136,6 +141,7 @@ And please don't think about the questions below because they've already been as
             male_communication_between_couple=husband_infer[
                 "communication_between_couple"
             ],
+            male_depression_score=husband_infer["depression_score"],
             female_age_of_diagnosis=wife_infer["age_of_diagnosis"],
             female_fertility_treatment_situation=wife_infer[
                 "fertility_treatment_situation"
@@ -149,5 +155,6 @@ And please don't think about the questions below because they've already been as
             female_communication_between_couple=wife_infer[
                 "communication_between_couple"
             ],
+            female_depression_score=wife_infer["depression_score"],
             exists_questions=question_list,
         )
